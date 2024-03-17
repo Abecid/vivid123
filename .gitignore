@@ -10,3 +10,5 @@
 *.sh
 *.out
 *.csv
+
+*.dist
