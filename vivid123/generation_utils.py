@@ -221,6 +221,7 @@ def generation_vivid123(
     xl_pipe: DiffusionPipeline,
     config_path: str,
     output_root_dir: str = "./outputs",
+    image_path: str = "images/dragon.png",
 ):
     # loading yaml config
     _var_matcher = re.compile(r"\${([^}^{]+)}")
@@ -239,6 +240,7 @@ def generation_vivid123(
             return yaml.safe_load(f.read())
 
     yaml_loaded = load_yaml(config_path)
+    yaml_loaded["input_image_path"] = image_path
     print(f"input_image_path is: ", yaml_loaded["input_image_path"])
     cfg = ViVid123BaseSchema.model_validate(yaml_loaded)
 
