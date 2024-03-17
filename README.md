@@ -12,7 +12,10 @@ pip install torch "diffusers>0.23" transformers accelerate einops kornia imageio
 ## Run single generation task
 Put the reference image to $IMAGE_PATH, and set the `input_image_path` in `scripts/task_example.yaml` to it. Then run
 ```bash
-python run_generation.py --task_yaml_path=scripts/task_example.yaml
+python run_generation.py
+```
+```bash
+python run_generation.py --task_yaml_path=scripts/task_example.yaml --image_path=images/dragon.png
 ```
 
 ## Run batch generation tasks
