@@ -182,8 +182,10 @@ def prepare_fusion_schedule_linear(
 
 def save_videos_grid_zeroscope_nplist(video_frames: List[np.ndarray], path: str, n_rows=6, fps=8, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
     # fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-    f = len(video_frames)
-    h, w, c = video_frames[0].shape
+    # f = len(video_frames)
+    # h, w, c = video_frames[0].shape
+    print(f"Video frames: {len(video_frames)}")
+    print(f"Video frame shape: {video_frames[0].shape}")
     #images = [(image).astype("uint8") for image in video_frames]
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
