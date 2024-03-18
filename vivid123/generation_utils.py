@@ -243,7 +243,9 @@ def generation_vivid123(
 
     yaml_loaded = load_yaml(config_path)
     yaml_loaded["input_image_path"] = image_path
+    yaml_loaded["obj_name"] = os.path.basename(image_path).split(".")[0].replace(" ", "_")
     print(f"input_image_path is: ", yaml_loaded["input_image_path"])
+    print(f"obj_name is: ", yaml_loaded["obj_name"])
     cfg = ViVid123BaseSchema.model_validate(yaml_loaded)
 
     # get reference image
