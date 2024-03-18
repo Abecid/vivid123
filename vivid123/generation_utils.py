@@ -320,7 +320,9 @@ def generation_vivid123(
 
     os.makedirs(os.path.join(output_root_dir, cfg.obj_name, "xl_frames"), exist_ok=True)
     for i in range(len(video_xl_frames)):
-        Image.fromarray(video_xl_frames[i]).save(f"{output_root_dir}/{cfg.obj_name}/xl_frames/{str(i).zfill(3)}.png") 
+        frame_uint8 = np.clip(video_xl_frames[i], 0, 255).astype(np.uint8)
+        Image.fromarray(frame_uint8).save(f"{output_root_dir}/{cfg.obj_name}/xl_frames/{str(i).zfill(3)}.png") 
+        video_xl_frames[i] = frame_uint8
     save_videos_grid_zeroscope_nplist(video_xl_frames, f"{output_root_dir}/{cfg.obj_name}/xl.mp4")
 
 
