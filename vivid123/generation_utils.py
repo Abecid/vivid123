@@ -287,6 +287,8 @@ def generation_vivid123(
         noise_identical_accross_frames=cfg.noise_identical_accross_frames,
         eta=cfg.eta,
     ).frames
+    
+    print(f"vivisd123 vid_base_frames: {len(vid_base_frames)}, shape: {vid_base_frames[0].shape}")
 
     # save imgs
     os.makedirs(os.path.join(output_root_dir, cfg.obj_name), exist_ok=True)
@@ -305,6 +307,8 @@ def generation_vivid123(
     video_xl_frames = xl_pipe(
         prompt=cfg.prompt, video=video_xl_input, strength=cfg.refiner_strength, guidance_scale=cfg.refiner_guidance_scale
     ).frames
+    
+    print(f"video_xl_frames: {len(video_xl_frames)}, shape: {video_xl_frames[0].shape}")
 
     os.makedirs(os.path.join(output_root_dir, cfg.obj_name, "xl_frames"), exist_ok=True)
     for i in range(len(vid_base_frames)):
