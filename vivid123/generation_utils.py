@@ -13,6 +13,7 @@ from diffusers.pipelines import DiffusionPipeline
 from diffusers.models import UNet2DConditionModel, AutoencoderKL
 from diffusers.schedulers import DDIMScheduler, DPMSolverMultistepScheduler, EulerDiscreteScheduler
 from diffusers.pipelines import DiffusionPipeline
+from diffusers.utils import export_to_video
 from transformers import CLIPVisionModelWithProjection
 
 from .models import CLIPCameraProjection
@@ -310,11 +311,16 @@ def generation_vivid123(
         prompt=cfg.prompt, video=video_xl_input, strength=cfg.refiner_strength, guidance_scale=cfg.refiner_guidance_scale
     ).frames
     
+    frames_4d = video_xl_frames[0]
+
+    # Convert the 4D array into a list of 3D arrays
+    video_xl_frames = [frames_4d[i] for i in range(frames_4d.shape[0])]
+    
     print(f"video_xl_frames: {len(video_xl_frames)}, shape: {video_xl_frames[0].shape}")
 
     os.makedirs(os.path.join(output_root_dir, cfg.obj_name, "xl_frames"), exist_ok=True)
-    for i in range(len(vid_base_frames)):
-        Image.fromarray(vid_base_frames[i]).save(f"{output_root_dir}/{cfg.obj_name}/xl_frames/{str(i).zfill(3)}.png") 
+    for i in range(len(video_xl_frames)):
+        Image.fromarray(video_xl_frames[i]).save(f"{output_root_dir}/{cfg.obj_name}/xl_frames/{str(i).zfill(3)}.png") 
     save_videos_grid_zeroscope_nplist(video_xl_frames, f"{output_root_dir}/{cfg.obj_name}/xl.mp4")
 
 
