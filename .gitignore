@@ -1,7 +1,7 @@
 *.pyc
 
 *.npy
-*.png
+# *.png
 *.json
 *.yaml
 *.zip
