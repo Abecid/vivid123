@@ -9,6 +9,7 @@ from PIL import Image
 import numpy as np
 import imageio.v3 as imageio
 
+from diffusers import PNDMScheduler, StableDiffusionPipeline, StableDiffusionImg2ImgPipeline
 from diffusers.pipelines import DiffusionPipeline
 from diffusers.models import UNet2DConditionModel, AutoencoderKL
 from diffusers.schedulers import DDIMScheduler, DPMSolverMultistepScheduler, EulerDiscreteScheduler
@@ -196,8 +197,10 @@ def save_videos_grid_zeroscope_nplist(video_frames: List[np.ndarray], path: str,
 def prepare_vivid123_pipeline(
     ZERO123_MODEL_ID: str = "bennyguo/zero123-xl-diffusers",
     VIDEO_MODEL_ID: str = "cerspense/zeroscope_v2_576w",
-    VIDEO_XL_MODEL_ID: str = "cerspense/zeroscope_v2_XL"
+    VIDEO_XL_MODEL_ID: str = "cerspense/zeroscope_v2_XL",
+    SD_MODEL_ID: str = "runwayml/stable-diffusion-v1-5"
 ):
+    sd_pipe = StableDiffusionPipeline.from_pretrained(SD_MODEL_ID, torch_dtype=torch.float32, local_files_only=False)
     zero123_unet = UNet2DConditionModel.from_pretrained(ZERO123_MODEL_ID, subfolder="unet", cache_dir=XDG_CACHE_HOME)
     zero123_cam_proj = CLIPCameraProjection.from_pretrained(ZERO123_MODEL_ID, subfolder="clip_camera_projection", cache_dir=XDG_CACHE_HOME)
     zero123_img_enc = CLIPVisionModelWithProjection.from_pretrained(ZERO123_MODEL_ID, subfolder="image_encoder", cache_dir=XDG_CACHE_HOME)
@@ -225,6 +228,7 @@ def generation_vivid123(
     config_path: str,
     output_root_dir: str = "./outputs",
     image_path: str = "images/dragon.png",
+    sd_pipe: DiffusionPipeline = None
 ):
     # loading yaml config
     _var_matcher = re.compile(r"\${([^}^{]+)}")

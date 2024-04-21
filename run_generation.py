@@ -5,6 +5,7 @@ from vivid123 import generation_vivid123, prepare_vivid123_pipeline
 ZERO123_MODEL_ID = "bennyguo/zero123-xl-diffusers"
 VIDEO_MODEL_ID = "cerspense/zeroscope_v2_576w"
 VIDEO_XL_MODEL_ID = "cerspense/zeroscope_v2_XL"
+SD_MODEL_ID = "runwayml/stable-diffusion-v1-5"
 
 
 if __name__ == "__main__":
